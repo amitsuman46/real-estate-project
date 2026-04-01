@@ -1,0 +1,91 @@
+# Real Estate AI Sales Dashboard
+
+This plan outlines the development of a real estate application designed to help agents and owners ("Harsh") track and summarize customer interactions using AI, specifically focusing on maximizing property value through bid tracking.
+
+## Business Problem
+Field agents and sales representatives speak with leads to negotiate property deals. Currently, the owner lacks a centralized way to understand how these conversations are going. More importantly, when multiple agents are showing the **same property** to different clients, there is no centralized track of who has offered what amount. The owner misses out on leveraging multiple interested parties to increase the final sale price (bidding).
+
+## Proposed Solution
+A web application with the following core functionalities:
+1. **Role-Based Access Control (RBAC)**: Two primary roles — `Agent` (Field/Sales Rep) and `Owner` (Broker/Admin, "Harsh").
+2. **Agent Workflow**:
+   - Log in to the application.
+   - Select a specific **Property** they are showing.
+   - Upload audio recordings of conversations with customers.
+   - Fill out lead details: Client Name, Phone Number, and **Offered Amount / Bid**.
+3. **AI Processing Pipeline**:
+   - Extract text from uploaded audio (Transcription).
+   - Generate a structured summary of the conversation.
+   - Automatically determine **Client Interest Level** (Interested, Not Interested) and highlight any pricing discussions.
+4. **Owner Dashboard**:
+   - **Global Leads View**: View all agents' activities and leads.
+   - **Property Hub (Bidding Tracker)**: A view for each property showing a ranked list of all clients who have seen it, their respective agents, their bid amounts, and their interest level. 
+   - When a property is about to close, the owner can instantly see other high-bidders and reach out to say, "The property is about to sell, are you willing to increase your offer?"
+
+## User Review Required
+
+> [!IMPORTANT]
+> Please review the updated architecture and the "Open Questions" section below, as your feedback will guide the technical choices before we start writing code.
+
+## Proposed Architecture & Tech Stack
+
+### Frontend & Backend Framework
+- **Next.js (App Router)**: A full-stack React framework that allows us to build a beautiful frontend and powerful backend API routes in one codebase.
+- **Tailwind CSS + shadcn/ui**: For a modern, fast, and premium broker/agent dashboard experience.
+
+### Database, Auth & Storage
+- **Firebase**: Quick setup for Authentication, Firestore (Database), and Firebase Storage (for securely uploading and storing audio files).
+
+### AI Integration
+- **OpenAI API**:
+  - `Whisper-1`: For transcribing the audio files accurately.
+  - `GPT-4o` (or GPT-4o-mini): For analyzing the transcript and returning structured JSON (Summary, Interest Level, Objections).
+
+## Proposed Changes
+
+### 1. Initial Setup
+#### [NEW] `package.json` & Next.js config
+- Initialize the Next.js project with TailwindCSS.
+- Install Firebase & OpenAI SDKs.
+
+### 2. Data Layer (Firestore Collections)
+#### [NEW] `models`
+- **Users**: Agents & Owner.
+- **Properties**: Name, Location, Asking Price, Status (Active/Sold).
+- **Leads/Bids**: Associated Property, Associated Agent, Client Name, Client Phone, Offered Amount, Audio File URL, AI Transcript, AI Summary, Interest Level.
+
+### 3. User Interface Components
+#### [NEW] `app/login/page.js`
+- Entry point for both Owner and Agents to sign in.
+#### [NEW] `app/agent/dashboard/page.js`
+- Agent view to list their submitted leads and an action to add new ones.
+#### [NEW] `app/agent/upload/page.js`
+- Dropdown to **select Property**.
+- Inputs for Client Name, Phone, **Offered Amount**.
+- File dropzone to upload the audio recording.
+#### [NEW] `app/owner/dashboard/page.js`
+- Harsh's overview. Stats on properties, total active leads, and recent activities.
+#### [NEW] `app/owner/property/[id]/page.js`
+- **The Bidding Hub**: Detailed view for a specific property. Shows a table: `Agent | Client | Offered Amount | AI Interest Level | AI Summary`. This allows Harsh to easily spot the highest bidders before closing a sale.
+
+### 4. API & AI Processing
+#### [NEW] `app/api/process-audio/route.js`
+- Secure route that receives the uploaded audio, transcribes it via Whisper, extracts insights via GPT (including Interest Level), and saves the row to Firestore.
+
+---
+
+## Open Questions
+
+> [!IMPORTANT]
+> Please let me know your thoughts on the following before we proceed:
+> 1. Does the **Property Hub / Bidding Tracker** approach correctly solve the problem of missing out on higher bids?
+> 2. Are you ready for me to set up the **Next.js + Firebase + OpenAI** stack and start building the initial skeleton and UI?
+> 3. Do you have a preferred UI theme? (e.g., modern dark mode, clean light mode, specific brand colors).
+
+## Verification Plan
+
+### Automated/Manual Verification
+1. Setup the project and verify the RBAC logic (Agent vs Owner views).
+2. Test the property selection and file upload mechanism.
+3. Verify the AI API route correctly returns transcription + interest level.
+4. Confirm Harsh's dashboard correctly groups leads/bids by Property.
