@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "fast-xml-parser": "^5.7.1",
     "firebase": "^12.11.0",
     "firebase-admin": "^13.7.0",
     "lucide-react": "^1.7.0",
@@ -25,5 +26,18 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "tailwindcss": "^4"
-  }
+  },
+  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amitsuman46/real-estate-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amitsuman46/real-estate-project/issues"
+  },
+  "homepage": "https://github.com/amitsuman46/real-estate-project#readme"
 }

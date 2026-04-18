@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Building2, LayoutDashboard, List, LogOut, Mic, Upload } from 'lucide-react';
+import { Building2, LayoutDashboard, List, LogOut, Mic, Rss, Shield, Upload } from 'lucide-react';
 
 export function AppShell({ children, title, subtitle }) {
   const { user, logout, loading } = useAuth();
@@ -21,7 +21,11 @@ export function AppShell({ children, title, subtitle }) {
   const nav = [
     { href: `${base}/dashboard`, label: 'Dashboard', icon: LayoutDashboard },
     ...(user.role === 'Owner'
-      ? [{ href: '/owner/properties', label: 'Listings', icon: List }]
+      ? [
+          { href: '/owner/properties', label: 'Listings', icon: List },
+          { href: '/owner/rss', label: 'RSS', icon: Rss },
+          { href: '/owner/admin', label: 'Admin', icon: Shield },
+        ]
       : []),
     ...(user.role === 'Agent'
       ? [{ href: '/agent/upload', label: 'New lead', icon: Upload }]
