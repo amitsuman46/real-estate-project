@@ -75,7 +75,7 @@ export default function OwnerRssPage() {
   }, {});
 
   return (
-    <AppShell title="RSS" subtitle="Macro, policy & markets — Harsh brief">
+    <AppShell title="RSS" subtitle="Macro, policy & markets">
       <p className="mb-6 max-w-3xl text-sm text-zinc-400">
         Live items are pulled server-side from public RSS where available. PIB sometimes blocks datacenter IPs with
         HTTP 401; if that happens, use the feed link in a normal browser or wire a residential proxy later.
